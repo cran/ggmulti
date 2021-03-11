@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE,
 library(knitr)
 set.seed(12314159)
 imageDirectory <- "./images/highDim"
-dataDirectory <- "./images/highDim"
+dataDirectory <- "./data/highDim"
 path_concat <- function(path1, ..., sep="/") {
   # The "/" is standard unix directory separator and so will
   # work on Macs and Linux.
@@ -66,7 +66,7 @@ include_graphics(path_concat(imageDirectory, "parallel_density.png"))
 ## ----radial graph, echo = FALSE, message = FALSE,  warning = FALSE, fig.width = 9, fig.height = 4, fig.align = "center", out.width = "70%"----
 include_graphics(path_concat(imageDirectory, "radial.png"))
 
-## ----andrews, message = FALSE, warning = FALSE, eval = FALSE, fig.width = 9, fig.height = 3, fig.align = "center", out.width = "70%"----
+## ----andrews, message = FALSE, warning = FALSE, eval = FALSE, fig.width = 6, fig.height = 4, fig.align = "center", out.width = "70%"----
 #  p <- ggplot(iris,
 #              mapping = aes(Sepal.Length = Sepal.Length,
 #                            Sepal.Width = Sepal.Width,
