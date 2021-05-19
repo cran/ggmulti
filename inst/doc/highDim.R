@@ -74,9 +74,7 @@ include_graphics(path_concat(imageDirectory, "radial.png"))
 #                            Petal.Width = Petal.Width,
 #                            colour = Species)) +
 #    geom_path(alpha = 0.2,
-#              stat = "dotProduct",
-#              # no scaling is applied
-#              scaling = "none")  +
+#              stat = "dotProduct")  +
 #    coord_serialaxes()
 #  p
 
@@ -86,7 +84,6 @@ include_graphics(path_concat(imageDirectory, "andrews.png"))
 ## ----andrews with quantile, message = FALSE, warning = FALSE, eval = FALSE, fig.width = 9, fig.height = 3, fig.align = "center", out.width = "70%"----
 #  p +
 #   geom_quantiles(stat = "dotProduct",
-#                  scaling = "none",
 #                  quantiles = c(0.25, 0.5, 0.75),
 #                  size = 2,
 #                  linetype = 2)
@@ -137,12 +134,12 @@ include_graphics(path_concat(imageDirectory, "tukey.png"))
 #    geom_serialaxes(alpha = 0.2) +
 #    geom_serialaxes_density(mapping = aes(fill = Species), alpha = 0.2)
 #  # radial axes can be created by
-#  # calling `coord_radar()` or `coord_polar(is_linear = TRUE)`
+#  # calling `coord_radial()`
 #  # this is slightly different, check it out!
 #  g +
 #    geom_serialaxes(alpha = 0.2) +
 #    geom_serialaxes(alpha = 0.2) +
-#    coord_radar()
+#    coord_radial()
 
 ## ----benefits of coord_serialaxes, eval=FALSE---------------------------------
 #  # The serial axes is `Sepal.Length`, `Sepal.Width`, `Sepal.Length`

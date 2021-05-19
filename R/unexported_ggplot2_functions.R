@@ -12,6 +12,5 @@ pos_stack <- utils::getFromNamespace("pos_stack", "ggplot2")
 rd_orientation <- utils::getFromNamespace("rd_orientation", "ggplot2")
 pos_dodge <- utils::getFromNamespace("pos_dodge", "ggplot2")
 pos_dodge2 <- utils::getFromNamespace("pos_dodge2", "ggplot2")
-
-## S3 method
-ggplot_build_ggplot <- utils::getS3method("ggplot_build", "ggplot")
+new_mapped_discrete <- utils::getFromNamespace("new_mapped_discrete", "ggplot2")
+is_mapped_discrete <- utils::getFromNamespace("is_mapped_discrete", "ggplot2")

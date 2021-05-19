@@ -13,6 +13,7 @@ geom_image_glyph(
   images,
   imagewidth = 1.2,
   imageheight = 0.9,
+  interpolate = TRUE,
   units = "cm",
   na.rm = FALSE,
   show.legend = NA,
@@ -56,6 +57,9 @@ to the paired geom/stat.}
 \item{imagewidth}{Numerical; width of image}
 
 \item{imageheight}{Numerical; height of image}
+
+\item{interpolate}{A logical value indicating whether to linearly interpolate the image (the alternative is to use nearest-neighbour interpolation,
+which gives a more blocky result). See \code{\link{rasterGrob}}.}
 
 \item{units}{A character vector specifying the units for the image height and width, see \code{\link{unit}};
 default is "cm" (force the width and height).}
@@ -105,14 +109,17 @@ if(requireNamespace("png")) {
 img_path <- list.files(file.path(find.package(package = 'ggmulti'),
                                  "images"),
                        full.names = TRUE)
-Raptors <- png::readPNG(img_path[1L])
+mercLogo <- png::readPNG(img_path[1L])
 
-p <- ggplot(data = data.frame(x = 0, y = 0),
-            mapping = aes(x = x, y = y)) +
-       geom_image_glyph(images = Raptors,
-                        units = "native",
-                        imagewidth = 1,
-                        imageheight = 1)
+p <- ggplot(mapping = aes(x = hp, y = mpg)) +
+       geom_point(
+         data = mtcars[!grepl("Merc", rownames(mtcars)), ],
+         color = "skyblue") +
+       geom_image_glyph(
+         data = mtcars[grepl("Merc", rownames(mtcars)), ],
+         images = mercLogo,
+         imagewidth = 1.5
+       )
 p
 
 }

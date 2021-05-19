@@ -1,23 +1,43 @@
 #' @title Serial axes coordinates
-#' @description It is mainly used to visualize the high dimensional data set
+#' @description
+#' It is mainly used to visualize the high dimensional data set
 #' either on the parallel coordinate or the radial coordinate.
+#'
 #' @param axes.layout Serial axes layout, either "parallel" or "radial".
-#' @param scaling One of 'variable', 'data', 'observation' or 'none' to specify how the data is scaled.
+#' @param scaling One of \code{data}, \code{variable}, \code{observation} or
+#' \code{none} (not suggested the layout is the same with \code{data})
+#' to specify how the data is scaled.
 #' @param axes.sequence A vector with variable names that defines the axes sequence.
-#' @param positive If `y` is set as the density estimate, where the smoothed curved is faced to,
-#' right (`positive`) or left (`negative`) as vertical layout;
-#' up (`positive`) or down (`negative`) as horizontal layout?
+#' @param positive If \code{y} is set as the density estimate, where the smoothed curved is faced to,
+#' right (\code{positive}) or left (\code{negative}) as vertical layout;
+#' up (\code{positive}) or down (\code{negative}) as horizontal layout?
 #' @param ... other arguments used to modify layers
 #' @details Serial axes coordinate system (parallel or radial) is different from the
 #' Cartesian coordinate system or its transformed system (say \code{polar} in \code{ggplot2})
 #' since it does not have a formal transformation
 #' (i.e. in polar coordinate system, "x = rcos(theta)", "y = rsin(theta)").
 #' In serial axes coordinate system, mapping aesthetics does not really require "x" or "y". Any "non-aesthetics"
-#' components passed in the `mapping` system will be treated as an individual axis.
+#' components passed in the \code{mapping} system will be treated as an individual axis.
 #'
 #' To project a common \code{geom} layer on such serialaxes,
 #' users can customize function \code{\link{add_serialaxes_layers}}.
-#' @importFrom utils getFromNamespace globalVariables getS3method
+#'
+#' @section Potential Risk:
+#' In package \code{ggmulti}, the function \code{ggplot_build.gg} is provided.
+#' At the \code{ggplot} construction time, the system will call \code{ggplot_build.gg}
+#' first. If the plot input is not a \code{CoordSerialaxes} coordinate system, the next method
+#' \code{ggplot_build.ggplot} will be called to build a "gg" plot; else
+#' some geometric transformations will be applied first, then the next method
+#' \code{ggplot_build.ggplot} will be executed. So, the potential risk is, if some other packages
+#' e.g. \code{foo}, also provide a function \code{ggplot_build.gg} that is used for their
+#' specifications but the namespace is beyond the \code{ggmulti} (\code{ggmulti:::ggplot_build.gg} is
+#' covered), error may occur. If so, please consider using the
+#' \code{\link{geom_serialaxes}}.
+#'
+#' @importFrom utils getFromNamespace globalVariables
+#'
+#' @return a \code{ggproto} object
+#'
 #' @examples
 #' # set sequence by `axes.sequence`
 #' p <- ggplot(iris) +
@@ -47,7 +67,7 @@
 #'
 #' @export
 coord_serialaxes <- function(axes.layout = c("parallel", "radial"),
-                             scaling = c("variable", "observation", "data", "none"),
+                             scaling = c("data", "variable", "observation", "none"),
                              axes.sequence = character(0L),
                              positive = TRUE, ...) {
 
@@ -66,7 +86,8 @@ ggplot_build.gg <- function(plot) {
 
   object <- plot$coordinates
   # regular call
-  if(!inherits(object, "CoordSerialaxes")) return(ggplot_build_ggplot(plot))
+  if(!inherits(object, "CoordSerialaxes"))
+    return(NextMethod()) # call next method `ggplot_build.ggplot`
 
   plot$coordinates <- switch(
     object$axes.layout,
@@ -77,14 +98,14 @@ ggplot_build.gg <- function(plot) {
                                           clip = object$clip %||% "on")
     },
     "radial" = {
-      plot$coordinates <- coord_radar(theta = object$theta %||% "x",
-                                      start = object$start %||% 0,
-                                      direction = object$direction %||% 1,
-                                      clip = object$clip %||% "on")
+      plot$coordinates <- coord_radial(theta = object$theta %||% "x",
+                                       start = object$start %||% 0,
+                                       direction = object$direction %||% 1,
+                                       clip = object$clip %||% "on")
     }, NULL
   )
   plot <- update_CoordSerialaxes(plot, object)
-  ggplot_build_ggplot(plot)
+  NextMethod() # call next method `ggplot_build.ggplot`
 }
 
 update_CoordSerialaxes <- function(p, object) {
@@ -117,7 +138,7 @@ update_CoordSerialaxes <- function(p, object) {
   #  note that a quick way to fix this is to avoid x and y,
   #  e.g. set `mapping = aes(xx = ..., yy = ...)`)
   # rather than fixing it, we throw a warning to users
-  # try not avoid using names `x` or `y`, give more meaningful names
+  # try avoid using names `x` or `y`, give more meaningful names
 
   if(aes_xy(p)) {
     p
