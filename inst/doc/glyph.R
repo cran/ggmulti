@@ -24,7 +24,7 @@ path_concat <- function(path1, ..., sep="/") {
 library(ggplot2, quietly = TRUE)
 library(dplyr, quietly = TRUE)
 
-## ----glyph_ggplot-------------------------------------------------------------
+## ----glyph_ggplot, fig.width=10-----------------------------------------------
 library(ggmulti)
 library(nycflights13)
 library(maps)
