@@ -70,7 +70,7 @@ p
 p + 
  geom_quantiles(stat = "dotProduct",
                 quantiles = c(0.25, 0.5, 0.75),
-                size = 2,
+                linewidth = 2,
                 linetype = 2) 
 
 ## ----tukey--------------------------------------------------------------------

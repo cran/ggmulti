@@ -157,8 +157,8 @@ GeomDensity_ <- ggplot2::ggproto(
 
     params
   },
-  setup_data = function(data, params) {
 
+  setup_data = function(data, params) {
     data <- ggplot2::flip_data(data, params$flipped_aes)
     acceptBoth <- na.omit(data$acceptBoth)[1L]
     if(!acceptBoth) {
@@ -229,7 +229,6 @@ GeomDensity_ <- ggplot2::ggproto(
   draw_group = function(self, data, panel_scales, coord, positive = TRUE,
                         scale.x = NULL, scale.y = "data", as.mix = FALSE,
                         prop = 0.9, na.rm = FALSE) {
-
     flipped_aes <- ggplot2::has_flipped_aes(data)
 
     return(ggplot2::ggproto_parent(ggplot2::GeomRibbon, self)$draw_group(data,
@@ -238,7 +237,7 @@ GeomDensity_ <- ggplot2::ggproto(
                                                                          flipped_aes = flipped_aes,
                                                                          outline.type = "both"))
   },
-  default_aes = ggplot2::aes(fill = NA, weight = 1, colour = "black",
-                             alpha = NA, size = 0.5, linetype = 1),
+  default_aes = ggplot2::aes(fill = NA, colour = "black", linewidth = 0.5,
+                             alpha = NA, linetype = 1),
   required_aes = c("x", "y")
 )

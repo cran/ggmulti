@@ -15,15 +15,19 @@ test_that("test serialaxes", {
   ######## parallel
 
   # test athetics colour, size, ...
-  p <- ggplot(iris,
-              mapping = mapping) +
-    geom_serialaxes() +
-    geom_serialaxes_hist() +
-    geom_serialaxes_density(positive = FALSE, color = "red") +
-    geom_serialaxes_quantile(color = "blue", size = 2)
-  b <- ggplot_build(p)
-  expect_equal(b$plot$layers[[3]]$aes_params$colour, "red")
-  expect_equal(b$plot$layers[[4]]$aes_params$size, 2)
+  # p <- ggplot(iris,
+  #             mapping = aes(
+  #               Sepal.Length = Sepal.Length,
+  #               Sepal.Width = Sepal.Width,
+  #               Petal.Length = Petal.Length,
+  #               Petal.Width = Petal.Width
+  #             )) +
+  #   geom_serialaxes() +
+  #   geom_serialaxes_hist() +
+  #   geom_serialaxes_density(positive = FALSE, color = "red") +
+  #   geom_serialaxes_quantile(color = "blue")
+  # b <- ggplot_build(p)
+  # expect_equal(b$plot$layers[[3]]$aes_params$colour, "red")
 
   # check mapping aesthetics
   p <- ggplot(iris,
@@ -31,7 +35,7 @@ test_that("test serialaxes", {
     geom_serialaxes(mapping = aes(colour = Species)) +
     geom_serialaxes_hist(positive = FALSE, mapping = aes(fill = Species)) +
     geom_serialaxes_density(color = "red") +
-    geom_serialaxes_quantile(color = "blue", size = 2)
+    geom_serialaxes_quantile(color = "blue")
   b <- ggplot_build(p)
   expect_equal(length(unique(b$data[[1]]$colour)), 3)
   expect_equal(length(unique(b$data[[2]]$fill)), 3)
