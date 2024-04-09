@@ -15,19 +15,14 @@ test_that("test serialaxes", {
   ######## parallel
 
   # test athetics colour, size, ...
-  # p <- ggplot(iris,
-  #             mapping = aes(
-  #               Sepal.Length = Sepal.Length,
-  #               Sepal.Width = Sepal.Width,
-  #               Petal.Length = Petal.Length,
-  #               Petal.Width = Petal.Width
-  #             )) +
-  #   geom_serialaxes() +
-  #   geom_serialaxes_hist() +
-  #   geom_serialaxes_density(positive = FALSE, color = "red") +
-  #   geom_serialaxes_quantile(color = "blue")
-  # b <- ggplot_build(p)
-  # expect_equal(b$plot$layers[[3]]$aes_params$colour, "red")
+  p <- ggplot(iris,
+              mapping = mapping) +
+    geom_serialaxes() +
+    geom_serialaxes_hist() +
+    geom_serialaxes_density(positive = FALSE, color = "red") +
+    geom_serialaxes_quantile(color = "blue")
+  b <- ggplot_build(p)
+  expect_equal(b$plot$layers[[3]]$aes_params$colour, "red")
 
   # check mapping aesthetics
   p <- ggplot(iris,
